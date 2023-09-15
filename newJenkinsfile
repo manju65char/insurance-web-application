@@ -1,0 +1,160 @@
+def cloneProjectStage(repositoryUrl, branchName) {
+	    git branch: branchName, credentialsId: 'latest-github-credentials', url: repositoryUrl
+	}
+
+	pipeline {
+	    agent any
+	    
+	    parameters {
+		choice(
+		    choices: ['master', 'develop', 'feature/branch-1', 'feature/branch-2'],
+		    description: 'Select the branch to build',
+		    name: 'BRANCH_NAME'
+		)
+	    }
+	    
+	    environment {
+
+		REPOSITORY_NAME = "insurance-web-application"
+		REPOSITORY_URL = "https://github.com/manju65char/${env.REPOSITORY_NAME}.git"
+	    }
+	    
+	stages {
+		stage('Cloning the Project') {
+		    steps {
+		        catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+		            script {
+		                withCredentials([
+		                    string(credentialsId: 'latest-github-credentials', variable: 'latest-github-credentials')
+		                ]) {
+		                    library identifier: 'jsl@master', retriever: modernSCM([
+		                        $class: 'GitSCMSource',
+		                        remote: "https://github.com/manju65char/shared-libraries.git",
+		                        credentialsId: 'latest-github-credentials'
+		                    ])
+		                }
+		                cloneProjectStage(REPOSITORY_URL, params.BRANCH_NAME)
+		            }
+					slackSend (
+                        color: currentBuild.resultIsBetterOrEqualTo('SUCCESS') ? 'good' : 'danger',
+                        message: "Cloning the Project' has completed (${currentBuild.result}).",
+                        channel: '#build-notifications', // Replace with your Slack channel name
+                        teamDomain: 'manjusoftware-v6b3769', // Replace with your Slack team name
+                        tokenCredentialId: 'slack-credential-id' // Create a secret text credential for 
+					)
+		        }
+		    }
+		}
+		stage('buildCodeStage') {
+            steps {
+                script {
+                    try {
+                        buildCodeStage()
+                    } catch (Exception e) {
+                        currentBuild.result = 'FAILURE'
+                        error('Failed to build Docker container')
+                    }
+                    slackSend (
+                        color: currentBuild.resultIsBetterOrEqualTo('SUCCESS') ? 'good' : 'danger',
+                        message: "Stage 'buildCodeStage' has completed (${currentBuild.result}).",
+                        channel: '#build-notifications', // Replace with your Slack channel name
+                        teamDomain: 'manjusoftware-v6b3769', // Replace with your Slack team name
+                        tokenCredentialId: 'slack-credential-id' // Create a secret text credential for your Slack token
+                    )
+                }
+            }
+        }
+		stage('mvn test') {
+		    steps {
+		        script {
+		            try {
+		                testCodeStage()
+		            } catch (Exception e) {
+		                currentBuild.result = 'FAILURE'
+		                error('Failed to build Docker container')
+		            }
+					slackSend (
+                        color: currentBuild.resultIsBetterOrEqualTo('SUCCESS') ? 'good' : 'danger',
+                        message: "Stage 'mvn test' has completed (${currentBuild.result}).",
+                        channel: '#build-notifications', // Replace with your Slack channel name
+                        teamDomain: 'manjusoftware-v6b3769', // Replace with your Slack team name
+                        tokenCredentialId: 'slack-credential-id' // Create a secret text credential for your Slack token
+					)
+		        }
+		    }
+		}
+		
+		stage('pubilish to nexus') {
+		    steps {
+		        script {
+		            try {
+		                artifactStage()
+		            } catch (Exception e) {
+		                currentBuild.result = 'FAILURE'
+		                error('Failed to build Docker container')
+		            }
+					slackSend (
+                        color: currentBuild.resultIsBetterOrEqualTo('SUCCESS') ? 'good' : 'danger',
+                        message: "Stage 'pubilish to nexus' has completed (${currentBuild.result}).",
+                        channel: '#build-notifications', // Replace with your Slack channel name
+                        teamDomain: 'manjusoftware-v6b3769', // Replace with your Slack team name
+                        tokenCredentialId: 'slack-credential-id' // Create a secret text credential for your Slack token
+					)
+		        }
+		    }
+		}
+		stage('dockerbuild') {
+		    steps {
+		        script {
+		            try {
+		                dockerBuildStage()
+		            } catch (Exception e) {
+		                currentBuild.result = 'FAILURE'
+		                error('Failed to build Docker container')
+		            }
+					slackSend (
+                        color: currentBuild.resultIsBetterOrEqualTo('SUCCESS') ? 'good' : 'danger',
+                        message: "Stage 'dockerbuild' has completed (${currentBuild.result}).",
+                        channel: '#build-notifications', // Replace with your Slack channel name
+                        teamDomain: 'manjusoftware-v6b3769', // Replace with your Slack team name
+                        tokenCredentialId: 'slack-credential-id' // Create a secret text credential for your Slack token
+					)
+		        }
+		    }
+		}
+		stage('Deploy to k8s') {
+		    steps {
+		        script {
+		            try {
+		                deploymentStage()
+		            } catch (Exception e) {
+		                currentBuild.result = 'FAILURE'
+		                error('Failed to build Docker container')
+		            }
+					slackSend (
+                        color: currentBuild.resultIsBetterOrEqualTo('SUCCESS') ? 'good' : 'danger',
+                        message: "Stage 'Deploy to k8s' has completed (${currentBuild.result}).",
+                        channel: '#build-notifications', // Replace with your Slack channel name
+                        teamDomain: 'manjusoftware-v6b3769', // Replace with your Slack team name
+                        tokenCredentialId: 'slack-credential-id' // Create a secret text credential for your Slack token
+					)
+		        }
+		    }
+		}
+		    stage('Send Slack Notification') {
+		         steps {
+		     script {
+		    slackSend (
+		        color: currentBuild.resultIsBetterOrEqualTo('SUCCESS') ? 'good' : 'danger',
+		        message: "Pipeline for ${env.JOB_NAME} has completed (${currentBuild.result}).",
+		        channel: '#build-notifications', // Replace with your Slack channel name
+		        teamDomain: 'manjusoftware-v6b3769', // Replace with your Slack team name
+		        tokenCredentialId: 'slack-credential-id' // Create a secret text credential for your Slack token
+		     )
+		    }
+	    }
+	}
+     }
+}
+
+
