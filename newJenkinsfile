@@ -37,7 +37,7 @@ def cloneProjectStage(repositoryUrl, branchName) {
 		            }
 					slackSend (
                         color: currentBuild.resultIsBetterOrEqualTo('SUCCESS') ? 'good' : 'danger',
-                        message: "Cloning the Project' has completed (${currentBuild.result}).",
+                        message: "Cloning the Project from github' has completed (${currentBuild.result}).",
                         channel: '#build-notifications', // Replace with your Slack channel name
                         teamDomain: 'manjusoftware-v6b3769', // Replace with your Slack team name
                         tokenCredentialId: 'slack-credential-id' // Create a secret text credential for 
