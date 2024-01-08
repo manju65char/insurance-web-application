@@ -1,4 +1,4 @@
-HELP.md
+HELP.md # crucial data, which are ignored by .git , dont want git to track given files/dir
 target/
 .DS_Store
 !.mvn/wrapper/maven-wrapper.jar
