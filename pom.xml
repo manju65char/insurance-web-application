@@ -10,14 +10,14 @@
 	</parent>
 	<groupId>com.project.manjutech</groupId>
 	<artifactId>insure-me</artifactId>
-	<version>1.0</version> 
+	<version>1.0-SNAPSHOT</version> 
 	<name>Insure-me</name>
 	<description>Industry ready project on based on Insurance Domain</description>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<sonar.host.url>http://44.204.20.151:9000/</sonar.host.url>
-		<sonar.login>e306225bb2b3c745a8236dd0e973e66d7baacb0c</sonar.login>
+		<sonar.host.url>http://127.0.0.1:9879/</sonar.host.url>
+		<sonar.login>squ_a893ce010bb4175ae458edd08b94501fcec6e8c9</sonar.login>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -46,6 +46,21 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<distributionManagement>
+
+	    <repository>
+	      <id>nexus</id>
+	      <name>Insureme_Releases_Nexus_Repository</name>
+	      <url>http://127.0.0.1:8888/repository/insure-me-release-repo/</url>
+	    </repository>
+
+	    <snapshotRepository>
+	      <id>nexus</id>
+	      <name>Insureme_Snapshot_Nexus_Repository </name>
+	      <url>http://127.0.0.1:8888/repository/insure-me-snapshot-repo/</url>
+	    </snapshotRepository>
+
+        </distributionManagement>
 
 	<build>
 		<plugins>
