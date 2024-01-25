@@ -1,0 +1,27 @@
+pipeline{
+
+  agent any  // to build on jenkins instance
+
+  /*
+  agent{
+label 'nodename'   // to build on particular node( maven , gradle,node,make sure with version)
+
+  }
+  */
+  
+  stages{
+        // cloning the code from gitthub repo
+        stage("cloning the project"){
+             step{
+              git 'https://github.com/manju65char/insurance-web-application.git'
+             
+             } 
+        }
+        stage("build the code"){
+        sh "mvn clean package"
+        }
+
+  }// stages closing
+
+
+} // pipeline closing
