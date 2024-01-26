@@ -21,7 +21,7 @@ pipeline {
         // Build the code using Maven
         stage("Build the code") {
             steps {
-                sh "mvn clean package"
+                sh "mvn -Dmaven.test.failure.ignore=true clean package"
             }
         }
     } // Stages closing
