@@ -1,14 +1,11 @@
 pipeline {
-    //agent any // to build on the Jenkins instance
+    agent any // to build on the Jenkins instance
 
     /*
     agent {
         label 'nodename' // to build on a particular node (maven, gradle, node; make sure with version)
     }
     */
-    agent {
-        label 'maven-3.9.6' // to build on a particular node (maven, gradle, node; make sure with version)
-    }
 
     stages {
         // Cloning the code from the GitHub repo
