@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.project.manjutech</groupId>
 	<artifactId>insure-me</artifactId>
-	<version>1.0-SNAPSHOT</version> 
+	<version>1.0</version> 
 	<name>Insure-me</name>
 	<description>Industry ready project on based on Insurance Domain</description>
 	<properties>
@@ -50,15 +50,9 @@
 
 	    <repository>
 	      <id>nexus</id>
-	      <name>Insureme_Releases_Nexus_Repository</name>
-	      <url>http://127.0.0.1:8888/repository/insure-me-release-repo/</url>
+	      <name>insureme-proxy-repo</name>
+	      <url>http://127.0.0.1:8787/repository/insureme-proxy-repo/</url>
 	    </repository>
-
-	    <snapshotRepository>
-	      <id>nexus</id>
-	      <name>Insureme_Snapshot_Nexus_Repository </name>
-	      <url>http://127.0.0.1:8888/repository/insure-me-snapshot-repo/</url>
-	    </snapshotRepository>
 
         </distributionManagement>
 
