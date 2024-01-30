@@ -15,7 +15,7 @@ pipeline {
             }
         }
 
-        // Build the code using Maven
+        // complile and build the artifact using Maven
         stage("Maven build ") {
             steps {
                 sh "mvn clean package"
