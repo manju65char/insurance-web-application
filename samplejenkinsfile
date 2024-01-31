@@ -8,7 +8,7 @@ tools {
 
 /*
 environment{
- WORKSPACE = "your jenkins home dir path "
+ WORKSPACE = "your project dir path "
  DOCKERHUB_CREDENTIALS = "DJDJDJSLJDLJL"
 
 }
