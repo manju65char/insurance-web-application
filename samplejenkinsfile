@@ -1,0 +1,82 @@
+pipeline{
+agent any // by default the projects build in the jenkins master server , in slave or node server 
+
+tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "maven-3.9.6"
+    }
+
+/*
+environment{
+ WORKSPACE = "your jenkins home dir path "
+ DOCKERHUB_CREDENTIALS = "DJDJDJSLJDLJL"
+
+}
+*/
+
+    stages{
+ 
+            stage('cloning the project or SCM checkout'){
+                steps{
+                 // here we are going write codes or commands 
+                 echo "project is cloned "
+                }
+      
+            }
+           
+            stage('Maven build'){
+                steps{
+                 // here we are going write codes or commands 
+                 echo "compiled and created the artifacts: .jar or war "
+                }
+      
+            }
+            
+            stage('static code anaysis'){
+                steps{
+                 // here we are going write codes or commands 
+                 echo "this stage is used to generate the project report based on quality profile and quality gates"
+                }
+      
+            }
+            stage('deploy the artifact into Nexus server'){
+                steps{
+                 // here we are going write codes or commands 
+                 echo " this stage is used to deploy the jar or war file into nexus server"
+                }
+      
+            }
+           
+            stage('docker build'){
+                steps{
+                 // here we are going write codes or commands 
+                 echo "this stage is used to remove the old images and rebuild the images "
+                }
+      
+            }
+            stage('dockerhub log in '){
+                steps{
+                 // here we are going write codes or commands 
+                 echo "this stage is used to log in to the docker hub "
+                }
+      
+            }
+            stage('docker push  '){
+                steps{
+                 // here we are going write codes or commands 
+                 echo "this stage is used to push the created docker images to the docker hub "
+                }
+      
+            }
+           
+            stage('deploy into k8s cluster '){
+                steps{
+                 // here we are going write codes or commands 
+                 echo "this stage is used to deploy the containerised application into k8s cluster "
+                }
+      
+            }
+           
+    } // stages closing tag 
+
+}//pipeline closing tag
