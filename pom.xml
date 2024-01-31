@@ -11,6 +11,7 @@
 	<groupId>com.project.manjutech</groupId>
 	<artifactId>insure-me</artifactId>
 	<version>1.0</version> 
+	<packaging>war</packaging> <!-- Added packaging element -->
 	<name>Insure-me</name>
 	<description>Industry ready project on based on Insurance Domain</description>
 	<properties>
@@ -19,7 +20,7 @@
 		<sonar.host.url>http://127.0.0.1:9879/</sonar.host.url>
 		<sonar.login>$SONAR_TOKEN</sonar.login>
 	</properties>
-	<packaging>war</packaging> <!-- Added packaging element -->
+	
 	<dependencies>
 		<!-- ... (unchanged) ... -->
 	</dependencies>
