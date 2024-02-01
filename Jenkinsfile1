@@ -8,7 +8,7 @@ pipeline {
     */
 
     stages {
-        // Cloning the code from the GitHub repo
+        // Cloning the Source code from the GitHub repo
         stage("Cloning the project") {
             steps {
                 git 'https://github.com/manju65char/insurance-web-application.git'
